@@ -87,7 +87,6 @@ const FiltersScreen = (props: FiltersScreenProps) => {
         res = await axios.get(
           `http://${API_LOCATION}:${API_PORT}/pushNotifications/${token}`
         );
-        console.log(res.data);
         const data: res = res.data;
         const swConf = categories.map((cat) => false);
         data.categories.forEach((cat1) => {
