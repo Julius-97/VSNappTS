@@ -9,21 +9,26 @@
       "image": "./assets/splashVSN.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
-      
+
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 1000
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
+      "bundleIdentifier":"it.vallesabbianews.vsn-app",
+      "buildNumber":"1.0.0",
       "supportsTablet": true
     },
     "android": {
+      "versionCode":1,
+      "package":"it.vallesabbianews.vsn_app",
       "adaptiveIcon": {
         "foregroundImage": "./assets/iconVSN.png",
         "backgroundColor": "#FFFFFF"
       },
-      "useNextNotificationsApi": true
+      "useNextNotificationsApi": true,
+      "permissions":[]
     },
     "web": {
       "favicon": "./assets/iconVSN.png"
