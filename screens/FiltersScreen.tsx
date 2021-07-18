@@ -10,7 +10,7 @@ import {
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import * as Notifications from 'expo-notifications';
 import * as SecStore from 'expo-secure-store';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { API_LOCATION, API_PORT } from '@env';
 
 import ModalCmp from '../components/ModalCmp';
@@ -66,12 +66,13 @@ const FiltersScreen = (props: FiltersScreenProps) => {
     if (pushEnable === false) {
       selectedCategories = [];
     }
-    axios.post(
-      `http://${API_LOCATION}:${API_PORT}/pushNotifications/${token}`,
-      {
+    axios
+      .post(`http://${API_LOCATION}:${API_PORT}/pushNotifications/${token}`, {
         categories: selectedCategories,
-      }
-    );
+      })
+      .then((res) => {
+        console.log(res.status);
+      });
   };
 
   useEffect(() => {
@@ -81,11 +82,12 @@ const FiltersScreen = (props: FiltersScreenProps) => {
   const load = useCallback(async () => {
     const token = await SecStore.getItemAsync('token');
     if (token) {
-      let res: any;
+      let res: AxiosResponse;
       try {
         res = await axios.get(
           `http://${API_LOCATION}:${API_PORT}/pushNotifications/${token}`
         );
+        console.log(res.data);
         const data: res = res.data;
         const swConf = categories.map((cat) => false);
         data.categories.forEach((cat1) => {

@@ -1,21 +1,33 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useEffect } from 'react';
+import { StyleSheet } from 'react-native';
+import { Provider } from 'react-redux';
+import { NavigationContainer } from '@react-navigation/native';
+import * as Notification from 'expo-notifications';
+import * as Linking from 'expo-linking';
+
+import { store } from './state';
+import { AppMainNavigator } from './navigation/MainNavigator';
 
 export default function App() {
+  useEffect(() => {
+    const subscription = Notification.addNotificationResponseReceivedListener(
+      (notification) => {
+        const link = notification.notification.request.content.data.link! as string;
+        Linking.openURL(link);
+      }
+    );
+    return () => {
+      subscription.remove();
+    };
+  }, []);
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Provider store={store}>
+      <NavigationContainer>
+        <AppMainNavigator />
+      </NavigationContainer>
+    </Provider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const styles = StyleSheet.create({});
